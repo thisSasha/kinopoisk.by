@@ -1,0 +1,190 @@
+h1  {
+    text-align: center;
+}
+* {
+    background-color: black;
+    color: rgb(240, 240, 240);
+    font-family: 'Nunito', sans-serif;
+    box-sizing: border-box;
+}
+body {
+    text-align: center;
+}
+img {
+    transition: 0.4s;
+    border-radius: 8px;
+    height: 360px;
+    width: 280px;
+    display: block;
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 1;
+    margin-left: auto;
+    margin-right: auto;
+    transform-origin: left;
+}
+h2 {
+    font-size: large;
+}
+/*.film*/
+.film {
+    border: 2px white solid;
+    border-radius: 20px;
+    display: inline-block;
+    position: relative;
+    padding: 10px;
+    margin: 8px;
+    width: 300px;
+    height: 450px;
+}
+/*.film:hover*/
+.film:hover a{
+    top: 60%;   
+    visibility: visible;
+}
+.film:hover img{
+    transform: scaleX(0.5);
+}
+/*.film a*/
+.film>a:hover {
+transform: scale(1.2);
+}
+.film>a   {
+    background-color: darkslategrey;
+    border-radius: 8px;
+    padding: 10px;
+    transition: 0.5s;
+    color: bisque;
+    text-decoration: none;
+    font-size: 18px;
+    position: absolute;
+    top: 380px;
+    right: 40px;
+    z-index: 0;
+    visibility: hidden;
+}
+/*section*/
+section {
+    padding: 48px 16px 48px 16px;
+}
+/*.coment*/
+.coment>form {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    visibility: hidden;
+    margin-top: 60px;   
+}
+.coment>form *{
+    font-family: 'Open-sans', sans-serif;
+}
+.coment input{
+    width: 100%;
+    text-align: left;
+    padding: 16px;
+    font-size: 16px;
+    border: 1px white double;
+    border-radius: 8px;
+    transition: 400ms;
+}
+.coment label{
+    display: block;
+    text-align: left;
+    margin: 12px 0px 12px 0px;
+}
+.coment input:focus{
+    box-shadow: 0px 0px 16px white;
+}
+.coment button{
+    transition: 400ms;
+    margin-top: 13px;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: grey;
+    border: none;
+    width: 100%;
+    border: 1px grey solid;
+}
+.coment button:hover{
+    box-shadow: 0 0 16px white;
+    transition: 600ms;
+    background-color: black;
+}
+.coment button:active{
+    box-shadow: none;
+}
+/*section__title*/
+a.section__title {
+    font-size: 30px;
+    color: azure;
+    transition: 400ms;
+    text-decoration: none; 
+    font-family: 'Open Sans', sans-serif;
+}
+a.section__title:hover {
+    text-shadow: 0px 0px 16px white;
+}
+a.section__title:active{
+    transition: 600ms;
+    text-shadow: none;
+    color: purple;
+}
+.section__title {
+    font-size: 30px;
+    position: absolute;
+    left: 0px;
+}
+.film p{
+    right: 32px;
+    top: 64px;
+}
+/*shadows*/
+.blue-shadow   {
+    box-shadow: 0 0 10px blue;
+}
+.white-shadow   {
+    box-shadow: 0 0 10px white;
+}
+.green-shadow   {
+    box-shadow: 0 0 10px greenyellow;
+}
+.red-shadow   {
+    box-shadow: 0 0 10px red;
+}
+.grey-shadow   {
+    box-shadow: 0 0 10px grey;
+}
+/*footer*/
+footer  {
+    background-color: rgb(178, 177, 177);
+    width: 100%;
+    height: 300px;
+    position: absolute;
+    left: 0%;
+    visibility: hidden;
+}
+footer *{
+    color: black;
+    background-color: rgb(178, 177, 177);
+    text-align: left;
+    left: 0%;
+}
+footer .logo{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 5%;
+    right: 0%;
+    left: 1400px;
+}
+/*id*/
+#vis:target {
+    visibility: visible;
+}
+/*.desc*/
+p.desc{
+    position: absolute;
+    z-index: 0;
+    text-align: center;
+    max-width: 50%;
+}
