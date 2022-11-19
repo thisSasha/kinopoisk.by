@@ -1,28 +1,59 @@
-export { Layout, TagBlock, pr }
+export { Layout, TagBlock, pr, hideMiniWarning, selectLayout }
 
-let pr/* print */ = function (...text) {
+let warning = true;
+
+let pr/* print */ = function (text) {
     console.log(text);
 };
-let prO/* print one*/ = function (text) {
+let prM/* print many*/ = function (...text) {
     console.log(text);
 };
 let miniWarnig /* warning */ = function (text) {
-    console.warn(text);
+    if (warning == true) {
+        console.warn(text);
+    };
 };
+let hideMiniWarning = function () {
+    warning = false;
+};
+let selectLayout = function (layout) {
+    let x = 0;
+    let selectedLayoutNum;
+    for (let i = 0; i < layouts.length; i++) {
+        let el = layouts[i];
+        if (layout == el.name) {
+            x++;
+            selectedLayoutNum = i;
+        };
+    };
+    if (x == 0) {
+        console.error('layoutIsNotDefined#selectLayout. Такого Лэйаута не существует.');
+    } else {
+        for (let i = 0; i < layouts.length; i++) {
+            layouts[i].object.style.visibility = 'hidden'
+        };
+        layouts[selectedLayoutNum].object.style.visibility = '';
+    };
+};
+document.body.style.overflowY = 'hidden';
 document.body.style.padding = 0;
 document.body.style.margin = 0;
-let Layouts = [];
+document.body.style.position = 'relative';
+let layouts = [];
 let defaultLayout = null;
 let tagBlockPlugins = {
     'solid': {
         'setSolid': function (trueOrFalse) {
             if (trueOrFalse == true) {
-                this.power = false;
-            } else if (trueOrFalse == false) {
                 this.power = true;
+            } else if (trueOrFalse == false) {
+                this.power = false;
             } else {
-                console.error('incorrectType. Вы указали неверный тип данных. {Разрешены true или false}')
+                console.error('incorrectType. Вы указали неверный тип данных. {Разрешены true или false}');
             };
+        },
+        'getSolid': function () {
+            return this.power;
         },
         'power': 'powerIsNot'
     },
@@ -32,13 +63,13 @@ function importPlugin(plugin, obj) {
 };
 function Layout(params) {
     if (params.name == undefined) {
-        console.error('Обязательный параметр name в параметрах данного обьекта');
+        console.error('requiredParameter. Обязательный параметр name в параметрах данного обьекта');
         return;
     };
-    for (let i = 0; i < Layouts.length; i++) {
-        const element = Layouts[i];
+    for (let i = 0; i < layouts.length; i++) {
+        const element = layouts[i];
         if (element.name == params.name) {
-            console.error(`Имена обьектов совпадают ${element.object}`)
+            console.error(`equalObjectName. Имена обьектов совпадают ${element.object}`)
             return;
         }
     }
@@ -55,7 +86,76 @@ function Layout(params) {
         defaultLayout = true;
         layoutGameConstructorObject.visibility = 'visible';
     };
-    Layouts.push(this);
+    this.background = {
+        'getType': function () {
+            return this.type.toString();
+        },
+        'type': 'color',
+        'setType': function (type) {
+            if (type == 'color') {
+                this.type = 'color';
+            } else if (type == 'image') {
+                this.type = 'image';
+                this.setImageRepeat = function (trueOrFalse, repeatXorY = null) {
+                    if (trueOrFalse == true) {
+                        this.parentLayout.style.backgroundRepeat = `repeat`;
+                        this.parentLayout.object.style.backgroundRepeat = `repeat`;
+                        if (repeatXorY == 'x') {
+                            this.parentLayout.style.backgroundRepeat += 'x';
+                            this.parentLayout.object.style.backgroundRepeat += 'x';
+                        } else if (repeatXorY == 'y') {
+                            this.parentLayout.object.style.backgroundRepeat += 'y';
+                            this.parentLayout.style.backgroundRepeat += 'y';
+                        }
+                    } else if (trueOrFalse == false) {
+                        this.parentLayout.style.backgroundRepeat = 'no-repeat';
+                        this.parentLayout.object.style.backgroundRepeat = 'no-repeat';
+                    } else {
+                        console.error('reqiredParameterIsNotAssign#setRepeat. Вы не указали значение параметру trueOrFalse');
+                        return;
+                    };
+                };
+                this.setImageSize = function (size) {
+                    this.parentLayout.style.backgroundSize = size;
+                    this.parentLayout.object.style.backgroundSize = size;
+                };
+                this.setImageId = function (wayBeforeImg) {
+                    if (wayBeforeImg == undefined) {
+                        console.error('reqiredParameterIsNotAssign#wayBeforeImg. Вы не указали значение параметру wayBeforeImg');
+                        return;
+                    };
+                    this.image = wayBeforeImg;
+                    this.parentLayout.object.style.backgroundImage = `url('${wayBeforeImg}')`;
+                };
+                this.image = undefined;
+                if (this.image == undefined) {
+                    this.parentLayout.object.style.backgroundImage = 'url(https://cdn0.iconfinder.com/data/icons/web-vol-2/50/Web_ARTBOARDS-60-1024.png)';
+                    this.parentLayout.object.style.backgroundSize = '100vh';
+                    this.parentLayout.object.style.backgroundRepeat = 'no-repeat';
+                    this.parentLayout.object.style.backgroundPosition = 'center';
+                };
+            } else {
+                console.error('incorrectType#InBackground. Тип фона не может равняться \'' + type + '\'.');
+            };
+        },
+    };
+    this.onclick = function (functionWhenClickThis) {
+        this.object.onclick = functionWhenClickThis;
+    };
+    this.setInnerText = function (value) {
+        this.innerText = value;
+        this.object.innerHTML = value;
+    };
+    this.setAtributte = function (attribute, value) {
+        this[attribute] = value;
+        this.object[attribute] = value;
+    };
+    this.setStyle = function (style, value) {
+        this.style[style] = value;
+        this.object.style[style] = value;
+    };
+    this.background.parentLayout = this;
+    layouts.push(this);
     layoutGameConstructorObject.id = this.name;
     layoutGameConstructorObject.style.width = '100vw';
     layoutGameConstructorObject.style.height = '100vh';
@@ -67,14 +167,33 @@ function Layout(params) {
             layoutGameConstructorObject.style.color = this.style.color;
         };
     };
+    if (params.moreAttributes != undefined) {
+        for (let i = 0; i < 99; i++) {
+            if (Object.keys(params.moreAttributes)[i] == undefined) {
+                i = 99;
+            };
+            layoutGameConstructorObject[Object.keys(params.moreAttributes)[i]] = Object.values(params.moreAttributes)[i];
+        }
+    };
+    if (params.style != undefined) {
+        for (let i = 0; i < 99; i++) {
+            if (Object.keys(params.style)[i] == undefined) {
+                i = 99;
+            };
+            layoutGameConstructorObject.style[Object.keys(params.style)[i]] = Object.values(params.style)[i];
+        };
+    };
     document.body.appendChild(layoutGameConstructorObject)
     this.object = layoutGameConstructorObject;
 }
 function TagBlock(params) {
     let blockGameConstructorObject = document.createElement('div');
-
+    if (params.type != undefined) {
+        this.tagName = params.type;
+        blockGameConstructorObject = document.createElement(params.type);
+    };
     if (params.name == undefined) {
-        console.error('Error Обязательный параметр name в параметрах данного обьекта');
+        console.error('requiedParameter. Обязательный параметр name в параметрах данного обьекта');
         return;
     } else {
         this.nameId = params.name;
@@ -88,24 +207,27 @@ function TagBlock(params) {
 
     for (let x = 0; x < Object.keys(params).length; x++) {
         this.set[Object.keys[x]] = function (value) {
-            this[Object.keys[x]] = value
-            this.object[Object.keys[x]] = value
+            this[Object.keys[x]] = value;
+            this.object[Object.keys[x]] = value;
         };
     };
     this.customProperties = params.customProperties;
     if (params.innerText != undefined) {
-        this.innerText = params.text;
+        this.innerText = params.innerText;
+        blockGameConstructorObject.innerHTML = this.innerText;
+        pr(blockGameConstructorObject)
     };
-    if (params.type != undefined) {
-        this.tagName = params.type;
-        blockGameConstructorObject = document.createElement(params.type);
-    };
+
 
     this[tagBlockPlugins.solid] = params.solid;
 
     if (params.plugins != undefined) {
         for (let i = 0; i < params.plugins.length; i++) {
-            importPlugin(params.plugins, this)
+            importPlugin(params.plugins[i], this);
+            if (params.plugins[i] == 'solid') {
+                miniWarnig('incorrectPluginForIt. Предупреждаем, что плагин solid для TagBlock может работать неправильно.\\\
+                Если вы хотите скрыть такие предупреждения напишите команду gc.hideMiniWarning().');
+            };
         };
     };
     if (params.inputType != undefined) {
