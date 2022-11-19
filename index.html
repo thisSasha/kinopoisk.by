@@ -11,10 +11,60 @@
 
 <body>
     <h1>Шаблоны</h1>
+    <script>
+        if (window.localStorage.getItem('autocopy') != undefined) {
+            navigator.clipboard.writeText(window.localStorage.getItem('autocopy'))
+        };
+        function copyOn(e, what) {
+            e.innerHTML = 'Скопировано';
+            if (what == 'vc') {
+                navigator.clipboard.writeText('https\:\/\/thissasha.github.io/shablons/valueConstructor.js');
+                setTimeout(() => {
+                    e.innerHTML = 'Нажмите чтобы скопировать ссылку на <span>valueConstructor.js</span>';
+                }, 1600);
+            } else if (what == 'gc') {
+                navigator.clipboard.writeText('https\:\/\/thissasha.github.io/shablons/gameConstructor.js');
+                setTimeout(() => {
+                    e.innerHTML = 'Нажмите чтобы скопировать ссылку на <span>gameConstructor.js</span>';
+                }, 1600);
+            } else if (what == 'simple') {
+                navigator.clipboard.writeText('https\:\/\/thissasha.github.io/shablons/simple.js');
+                setTimeout(() => {
+                    e.innerHTML = 'Нажмите чтобы скопировать ссылку на <span>simple.js</span>';
+                }, 1600);
+            };
+        };
+        function autocopy(e, what) {
+            e.innerHTML = 'Включено';
+            if (what == 'vc') {
+                window.localStorage.setItem('autocopy', 'https\:\/\/thissasha.github.io/shablons/valueConstructor.js')
+            } else if (what == 'gc') {
+                window.localStorage.setItem('autocopy', 'https\:\/\/thissasha.github.io/shablons/gameConstructor.js')
+            } else if (what == 'simple') {
+                window.localStorage.setItem('autocopy', 'https\:\/\/thissasha.github.io/shablons/simple.js')
+            };
+            setTimeout(() => {
+                e.innerHTML = 'АвтоКопирование';
+            }, 1600);
+        };
+    </script>
     <div class="container">
-        <p class="a" onclick="navigator.clipboard.writeText('https\:\/\/thissasha.github.io/shablons/valueConstructor.js')">Нажмите чтобы скопировать ссылку на <span>valueConstructor.js</span></p>
-        <p class="a" onclick="navigator.clipboard.writeText('https\:\/\/thissasha.github.io/shablons/simple.js')">Нажмите чтобы скопировать ссылку на <span>simple.js</span></p>
-        <p class="a" onclick="navigator.clipboard.writeText('https\:\/\/thissasha.github.io/shablons/gameConstructor.js')">Нажмите чтобы скопировать ссылку на <span>gameConstructor.js</span></p>
+        <div class="miniContainer">
+            <p class="a" onclick="copyOn(this, 'vc') ">
+                Нажмите чтобы скопировать ссылку на <span>valueConstructor.js</span></p> <button
+                onclick="autocopy(this, 'vc')">АвтоКопирование</button>
+        </div>
+        <div class="minicontainer">
+            <p class="a" onclick="copyOn(this, 'simple')">
+                Нажмите чтобы скопировать ссылку на <span>simple.js</span></p> <button
+                onclick="autocopy(this, 'simple') ">АвтоКопирование</button>
+        </div>
+        <div class="miniContainer">
+            <p class="a"
+                onclick="copyOn(this, 'gc')">
+                Нажмите чтобы скопировать ссылку на <span>gameConstructor.js</span></p> <button
+                onclick="autocopy(this, 'gc')">АвтоКопирование</button>
+        </div>
     </div>
 </body>
 
