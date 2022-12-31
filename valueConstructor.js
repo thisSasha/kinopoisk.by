@@ -1,5 +1,6 @@
 export { ValueObject }
 function ValueObject(params) {
+    if(params.object==undefined) {console.error('requiedParameter@object. Обязательный параметр object в params ValueObject')}
     this.localStorage = params.localStorage;
     this.localStorageName = params.localStorageName;
     this.object = params.object;

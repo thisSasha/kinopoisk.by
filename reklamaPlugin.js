@@ -6,23 +6,23 @@ function addAnimation(body) {
         dynamicStyles = document.createElement('style');
         dynamicStyles.type = 'text/css';
         document.head.appendChild(dynamicStyles);
-    }
+    };
     dynamicStyles.sheet.insertRule(body, dynamicStyles.length);
-}
+};
 let styles = {
     'blackRaindbowBrigth': {
         'powered': {
-            'interval': '0.5s',
+            'interval': '0.65s',
             'many': true,
             'etaps': `
     0%{
-        color: red;
+        color: #bc0000;
     }
     50%{
-        color: blue;
+        color: #0053ff;
     }
     100%{
-        color: red;
+        color: #bc0000;
     }`,
         },
         'unpowered': {
@@ -40,11 +40,12 @@ function getStylesNames(where) {
         console.log(styles);
     };
 };
-function ReklamaLink(objectDiv, text, style, href, ...positionXandY) {
+function ReklamaLink(objectDiv, text, style, type, href, ...positionXandY) {
     let thisForChildren = this;
     this.objectDiv = objectDiv;
     this.a = document.createElement('a');
     this.a.href = href;
+    this.a.target = 'blank';
     this.a.id = 'myLink' + myI.toString();
     this.a.innerHTML = text;
     if (positionXandY[0] != undefined && positionXandY[0] != undefined) {
@@ -75,7 +76,7 @@ function ReklamaLink(objectDiv, text, style, href, ...positionXandY) {
     `
                 )
                 thisForChildren.a.style.pointerEvents = 'all';
-                thisForChildren.a.style.animation = `myLink${myI} ${thisForChildren[powerOrNo].interval} infinite`
+                thisForChildren.a.style.animation = `myLink${myI} ${thisForChildren[powerOrNo].interval} infinite linear`
             } else {
                 thisForChildren.a.style.animation = ``;
                 thisForChildren.a.style.pointerEvents = 'none';
