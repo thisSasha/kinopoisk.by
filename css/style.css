@@ -22,6 +22,7 @@ body {
 }
 
 p.a {
+    display: inline-block;
     transition: 400ms;
     cursor: pointer;
     color: black;
@@ -32,13 +33,29 @@ span {
     color: darkblue;
 }
 
-p.a:hover{
+p.a:hover {
     text-shadow: 1px 1px 12px black;
 }
-p.a:active{
+
+p.a:active {
     color: rgb(83, 83, 83);
 }
-p.a:active>span, span:active{
+
+p.a:active>span,
+span:active {
     transition: 400ms;
     color: rgb(0, 0, 183);
+}
+
+button {
+    width: 18%;
+    border-radius: 5px;
+    border: none;
+    transition: 400ms;
+    cursor: pointer;
+    color: black;
+    background-color: rgba(0, 0, 0, 0.071);
+}
+button:hover {
+    box-shadow: 1px 1px 12px black;
 }
