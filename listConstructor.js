@@ -17,7 +17,6 @@ function List(params) {
         console.error('reqiredParameter@parent. Обязательный параметр parent в params(' + this.id + ')');
         return false;
     };
-    let thisForChildren = this;
     this.articlesParams = params.articlesParams;
     this.localStorage = params.localStorage
     this.ul = document.createElement('ul');
@@ -25,6 +24,7 @@ function List(params) {
     this.id = this.ul.className;
     this.ul.id = 'myList' + myIL.toString();
     this.articles = [];
+    let thisForChildren = this;
     if (typeof params.style == 'object') {
         this.ul.style = params.style[0];
         this.liStyle = params.style[1];
@@ -60,16 +60,22 @@ function List(params) {
             texxt = text;
         };
         if (type[0] == undefined || type[0] == 'id') {
-            thisForChildren.ul.removeChild(document.getElementById(texxt))
+            thisForChildren.ul.removeChild(document.getElementById(texxt));
         } else if (type[0] == 'text') {
             for (let i = 0; i < this.articles.length; i++) {
                 const element = this.articles[i];
                 if (element.innerText == texxt) {
-                    thisForChildren.ul.removeChild(document.getElementById(element.id))
-                }
-            }
-        }
-    }
+                    thisForChildren.ul.removeChild(document.getElementById(element.id));
+                };
+            };
+        };
+    };
+    this.clear = function() {
+        for (let i = 0; i < this.articles.length; i++) {
+            const el = this.articles[i];
+            this.delLi(el.innerHTML);
+        };
+    };
     this.addLi = function (text, ...customAtributtes) {
         let texxt
         if (typeof text == "object") {
@@ -80,7 +86,7 @@ function List(params) {
         };
         let li = document.createElement('li');
         li.id = 'li' + this.articles.length
-        li.style.listStyleType = thisForChildren.listStyleType;
+        li.style.listStyle = this.listStyleType;
         li.style = thisForChildren.liStyle;
         li.innerHTML = texxt;
         if (thisForChildren.articlesParams != undefined) {
@@ -116,7 +122,7 @@ function List(params) {
         this.ul.className = params.id;
         this.ul.id = params.id;
         this.id = params.id;
-    }
+    };
     thisForChildren = this;
     document.getElementById(this.id).innerHTML = this.ul.innerHTML;
 };
